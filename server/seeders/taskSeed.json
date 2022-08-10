@@ -3,6 +3,7 @@
         "_id": "62eaeef13a332517e38b8883",
         "title": "Make a pokeball",
         "desc": "Got to go get stuff off trees and aluminum",
+        "time": 15,
         "username": "Molly48",
         "path": null
       },
@@ -10,6 +11,7 @@
             "_id": "62eaeef13a332517e38b8886",
             "title": "Bottom half of pokeball",
             "desc": "You'll need aluminum and then mold it into the shell shape",
+            "time": 15,
             "username": "Molly48",
             "path": ",62eaeef13a332517e38b8883,"
         },
@@ -33,6 +35,7 @@
             "_id": "62eaeef13a332517e38b8895",
             "title": "Make top half of pokeball",
             "desc": "you'll need red capricorns and a crafting table",
+            "time": 15,
             "username": "Molly48",
             "path": ",62eaeef13a332517e38b8883,"
         },

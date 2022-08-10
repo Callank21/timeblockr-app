@@ -26,7 +26,7 @@ const resolvers = {
           },
         task: async (parent, { _id }) => {
             taskData = [];
-            taskData.push(Task.findOne( { _id } ));
+            taskData.push(await Task.findOne( { _id } ));
             var regex = new RegExp(`,${_id},`);
             (await Task.find({ path: regex})).forEach(item => taskData.push(item));
 
@@ -82,16 +82,21 @@ const resolvers = {
             // }
             // throw new AuthenticationError();
           },
-        updateTime: async (parent, args) => {
+        updateTime: async (parent, {_id}) => {
           var timeTotal = 0;
-          taskData = [];
-            // taskData.push(Task.findOne( { args._id } ));
-          var regex = new RegExp(`,${args._id},`);
-            // (await Task.find({ path: regex})).forEach(item => taskData.push(item));
-          var value = (await Task.find({ path: regex})).filter(item => item.time).forEach(item => timeTotal += item.time);
-            console.log(value);
-            console.log(timeTotal);
-            return timeTotal;
+          var taskData = [];
+          taskData.push(await Task.findOne( { _id } ));
+          var regex = new RegExp(`,${_id},`);
+          (await Task.find({ path: regex})).forEach(item => taskData.push(item));
+          taskData.filter(item => item).forEach(item =>  timeTotal += item.time);
+          return Task.findOneAndUpdate(
+            { "_id": _id },
+            {
+              $set: {
+                totaltime: timeTotal
+            }
+        });
+            // return timeTotal;
         }
     }
 };

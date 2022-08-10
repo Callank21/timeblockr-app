@@ -13,6 +13,7 @@ const typeDefs = gql `
         title: String
         desc: String
         time: Int
+        totaltime: Int
         username: String
         path: String
     }
@@ -28,7 +29,6 @@ const typeDefs = gql `
         user(username: String!): User
         users: [User]
         task(_id: ID!): [Task]
-        taskchild(_id: ID!): [Task]
         tasks: [Task]
     }
 
@@ -52,7 +52,7 @@ const typeDefs = gql `
             ): Task
         updateTime(
             _id: ID!
-        ): Int
+        ): Task
     }
 `;
 

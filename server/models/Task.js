@@ -17,6 +17,9 @@ const taskSchema = new Schema(
     time: {
       type: Number
     },
+    totaltime: {
+      type: Number
+    },
     username: {
         type: String,
         required: true,
