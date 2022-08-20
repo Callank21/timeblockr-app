@@ -64,6 +64,33 @@ const resolvers = {
             // if (context.user) {
               args._id = new ObjectID();
               const task = await Task.create(args);
+              var {_id, path } = task;
+              const idList = [_id];
+              path.split(',').filter(x => x).forEach(x => idList.push(ObjectID(x)));
+              console.log(idList.length);
+
+              if (task) {
+                for(i = 0; i < idList.length; i++) {
+                  console.log(i);
+                  var {_id} = idList[i];
+                  console.log(_id.toString());
+                  let timeTotal = 0;
+                  let taskData = [];
+                  taskData.push(await Task.findOne( { _id } ));
+                  console.log(taskData);
+                  var regex = new RegExp(`,${_id.toString()},`);
+                  (await Task.find({ path: regex})).forEach(item => taskData.push(item));
+                  taskData.filter(item => item).forEach(item => timeTotal += item.time);
+                  console.log(taskData);
+                  await Task.findOneAndUpdate(
+                  { "_id": _id },
+                  {
+                    $set: {
+                      totaltime: timeTotal
+                      }
+                  });
+                } 
+              }
 
               await User.findOneAndUpdate(
                 { username: task.username },
@@ -84,7 +111,7 @@ const resolvers = {
           },
         updateTime: async (parent, {_id}) => {
           var timeTotal = 0;
-          var taskData = [];
+          let taskData = [];
           taskData.push(await Task.findOne( { _id } ));
           var regex = new RegExp(`,${_id},`);
           (await Task.find({ path: regex})).forEach(item => taskData.push(item));
