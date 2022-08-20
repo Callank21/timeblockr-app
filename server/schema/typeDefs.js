@@ -50,6 +50,14 @@ const typeDefs = gql `
             username: String!
             path: String!
             ): Task
+        updateTask(
+            _id: ID!
+            title: String
+            desc: String
+            time: Int
+            username: String
+            path: String
+            ): Task
         updateTime(
             _id: ID!
         ): Task
