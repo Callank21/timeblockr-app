@@ -60,6 +60,17 @@ const resolvers = {
       
             return { token, user };
           },
+        updateUser: async(parent, args, context) => {
+          // if (context.user) {
+            const userData = await User.findOneAndUpdate(
+              { _id: args._id },
+              args,
+              { new: true }
+            )
+              .select('-__v -password');
+              return userData;
+          // }
+        },
           createTask: async (parent, args, context) => {
             // if (context.user) {
               args._id = new ObjectID();
