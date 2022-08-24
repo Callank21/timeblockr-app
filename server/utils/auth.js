@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'iamacat';
+const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
 module.exports = {
@@ -10,6 +10,7 @@ module.exports = {
 
     // ["Bearer", "<tokenvalue>"]
     if (req.headers.authorization) {
+      console.log("authorized");
       token = token
         .split(' ')
         .pop()
@@ -19,7 +20,7 @@ module.exports = {
     if (!token) {
       return req;
     }
-
+    
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       req.user = data;
