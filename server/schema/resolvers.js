@@ -8,6 +8,7 @@ const resolvers = {
     Query:  {
         me: async (parent, args, context) => {
             if (context.user) {
+              console.log("hi");
               const userData = await User.findOne({ _id: context.user._id })
                 .select('-__v -password')
                 .populate('tasks');
@@ -62,7 +63,7 @@ const resolvers = {
             return { token, user };
           },
         updateUser: async(parent, args, context) => {
-          // if (context.user) {
+          if (context.user) {
             const userData = await User.findOneAndUpdate(
               { _id: args._id },
               args,
@@ -70,10 +71,10 @@ const resolvers = {
             )
               .select('-__v -password');
               return userData;
-          // }
+          }
         },
           createTask: async (parent, args, context) => {
-            // if (context.user) {
+            if (context.user) {
               args._id = new ObjectID();
               const task = await Task.create(args);
               var {_id, path } = task;
@@ -113,7 +114,7 @@ const resolvers = {
               //   { new: true }
               // );
               return task;
-            // }
+            }
             // throw new AuthenticationError();
           },
           updateTask: async (parent, args) => {

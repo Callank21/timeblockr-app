@@ -12,7 +12,7 @@ const typeDefs = gql `
     type Task {
         _id: ID
         title: String
-        desc: String
+        description: String
         time: Int
         totaltime: Int
         username: String
@@ -47,7 +47,7 @@ const typeDefs = gql `
         updateUser(_id: ID!, username: String, email: String, password: String): User
         createTask(
             title: String!
-            desc: String
+            description: String
             time: Int
             username: String!
             path: String!
@@ -55,7 +55,7 @@ const typeDefs = gql `
         updateTask(
             _id: ID!
             title: String
-            desc: String
+            description: String
             time: Int
             username: String
             path: String

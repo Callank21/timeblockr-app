@@ -10,7 +10,7 @@ const taskSchema = new Schema(
       type: String,
       required: true,
     },
-    desc: {
+    description: {
       type: String,
       required: true,
     },
@@ -25,7 +25,8 @@ const taskSchema = new Schema(
         required: true,
     },
     path: {
-        type: String
+        type: String,
+        default: null
     }
   },
   {
