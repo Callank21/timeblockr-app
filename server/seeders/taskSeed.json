@@ -2,7 +2,7 @@
     {
         "_id": "62eaeef13a332517e38b8883",
         "title": "Make a pokeball",
-        "desc": "Got to go get stuff off trees and aluminum",
+        "description": "Got to go get stuff off trees and aluminum",
         "time": 15,
         "username": "Molly48",
         "path": null
@@ -10,7 +10,7 @@
         {
             "_id": "62eaeef13a332517e38b8886",
             "title": "Bottom half of pokeball",
-            "desc": "You'll need aluminum and then mold it into the shell shape",
+            "description": "You'll need aluminum and then mold it into the shell shape",
             "time": 15,
             "username": "Molly48",
             "path": ",62eaeef13a332517e38b8883,"
@@ -18,7 +18,7 @@
             {
                 "_id": "62eaeef13a332517e38b8889",
                 "title": "Get Aluminum",
-                "desc": "Its made out of Bauxite, mine bauxite",
+                "description": "Its made out of Bauxite, mine bauxite",
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8886,"
@@ -26,7 +26,7 @@
             {
                 "_id": "62eaeef13a332517e38b888c",
                 "title": "Mold it",
-                "desc": "You'll need an anvil then form it into the right shape",
+                "description": "You'll need an anvil then form it into the right shape",
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8886,"
@@ -34,7 +34,7 @@
         {
             "_id": "62eaeef13a332517e38b8895",
             "title": "Make top half of pokeball",
-            "desc": "you'll need red capricorns and a crafting table",
+            "description": "you'll need red capricorns and a crafting table",
             "time": 15,
             "username": "Molly48",
             "path": ",62eaeef13a332517e38b8883,"
@@ -42,7 +42,7 @@
             {
                 "_id": "62eaeef13a332517e38b889b",
                 "title": "Get 3 Capricorn",
-                "desc": "Look amongst the trees, the red half circles are capricorns",
+                "description": "Look amongst the trees, the red half circles are capricorns",
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8895,"
@@ -50,7 +50,7 @@
             {
                 "_id": "62eaeef13a332517e38b88a4",
                 "title": "Craft top half",
-                "desc": "Go to a crafting table, and place the three in a straight row",
+                "description": "Go to a crafting table, and place the three in a straight row",
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8895,"

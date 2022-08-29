@@ -8,7 +8,6 @@ const resolvers = {
     Query:  {
         me: async (parent, args, context) => {
             if (context.user) {
-              console.log("hi");
               const userData = await User.findOne({ _id: context.user._id })
                 .select('-__v -password')
                 .populate('tasks');
@@ -115,7 +114,7 @@ const resolvers = {
               // );
               return task;
             }
-            // throw new AuthenticationError();
+            throw new AuthenticationError();
           },
           updateTask: async (parent, args) => {
             const task = await Task.findOneAndUpdate({ _id: args._id }, args, {

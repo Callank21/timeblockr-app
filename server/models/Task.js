@@ -25,8 +25,7 @@ const taskSchema = new Schema(
         required: true,
     },
     path: {
-        type: String,
-        default: null
+        type: String
     }
   },
   {
