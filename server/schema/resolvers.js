@@ -34,7 +34,13 @@ const resolvers = {
           },
         tasks: async () => {
             return Task.find();
-          }
+          },
+        children: async (parent, { _id }) => {
+          taskData = [];
+            var regex = new RegExp(`,${_id},$`);
+            (await Task.find({ path: regex})).forEach(item => taskData.push(item));
+          return taskData;
+        }
     },
 
     Mutation: {
@@ -80,7 +86,7 @@ const resolvers = {
               const idList = [_id];
               path.split(',').filter(x => x).forEach(x => idList.push(ObjectID(x)));
 
-              if (task) {
+                if (task) {
                 for(i = 0; i < idList.length; i++) {
                   var {_id} = idList[i];
                   let timeTotal = 0;
@@ -98,7 +104,7 @@ const resolvers = {
                   });
                 } 
               }
-
+              
               await User.findOneAndUpdate(
                 { username: task.username },
                 {
@@ -107,11 +113,6 @@ const resolvers = {
                   },
                 }
               );
-              // await User.findByIdAndUpdate(
-              //   { _id: context.user._id },
-              //   { $push: { tasks: task._id } },
-              //   { new: true }
-              // );
               return task;
             }
             throw new AuthenticationError();

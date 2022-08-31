@@ -10,7 +10,6 @@ module.exports = {
 
     // ["Bearer", "<tokenvalue>"]
     if (req.headers.authorization) {
-      console.log("authorized");
       token = token
         .split(' ')
         .pop()

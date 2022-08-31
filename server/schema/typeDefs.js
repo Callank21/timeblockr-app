@@ -31,6 +31,7 @@ const typeDefs = gql `
         users: [User]
         task(_id: ID!): [Task]
         tasks: [Task]
+        children(_id: ID!): [Task]
     }
 
 # Mutations
