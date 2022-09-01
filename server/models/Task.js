@@ -27,6 +27,9 @@ const taskSchema = new Schema(
     path: {
         type: String
     },
+    depth: {
+      type: Number
+    },
     tasks: [
       {
         type: Schema.Types.ObjectId,

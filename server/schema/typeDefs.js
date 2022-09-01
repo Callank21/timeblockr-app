@@ -17,6 +17,7 @@ const typeDefs = gql `
         totaltime: Int
         username: String
         path: String
+        depth: Int
         tasks: [Task]
     }
 

@@ -6,6 +6,7 @@
         "time": 15,
         "username": "Molly48",
         "path": null,
+        "depth": 0,
         "tasks": []
       },
         {
@@ -15,6 +16,7 @@
             "time": 15,
             "username": "Molly48",
             "path": ",62eaeef13a332517e38b8883,",
+            "depth": 0,
             "tasks": []
         },
             {
@@ -24,6 +26,7 @@
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8886,",
+                "depth": 0,
                 "tasks": []
             },
             {
@@ -33,6 +36,7 @@
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8886,",
+                "depth": 0,
                 "tasks": []
             },
         {
@@ -42,6 +46,7 @@
             "time": 15,
             "username": "Molly48",
             "path": ",62eaeef13a332517e38b8883,",
+            "depth": 0,
             "tasks": []
         },
             {
@@ -51,6 +56,7 @@
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8895,",
+                "depth": 0,
                 "tasks": []
             },
             {
@@ -60,6 +66,37 @@
                 "time": 15,
                 "username": "Molly48",
                 "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8895,",
+                "depth": 0,
                 "tasks": []
-            }
+            },
+            {
+                "_id": "7df1ac97be03d12d292c4ee9",
+                "title": "Make crafting table",
+                "description": "Chop down trees and get wood",
+                "time": 15,
+                "username": "Molly48",
+                "path": ",62eaeef13a332517e38b8883,62eaeef13a332517e38b8895,62eaeef13a332517e38b88a4,",
+                "depth": 0,
+                "tasks": []
+            },
+            {
+                "_id": "80b68ad7be30d0c8c9b9af12",
+                "title": "Make a robot",
+                "description": "You need to integrate the robot arm with an online UI",
+                "time": 15,
+                "username": "Molly48",
+                "path": null,
+                "depth": 0,
+                "tasks": []
+              },
+              {
+                "_id": "f3d1a5151f10f8d1a93ea5ec",
+                "title": "Fix 3d printers",
+                "description": "They broke, go fix",
+                "time": 15,
+                "username": "Molly48",
+                "path": ",80b68ad7be30d0c8c9b9af12,",
+                "depth": 0,
+                "tasks": []
+              }
 ]

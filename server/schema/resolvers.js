@@ -19,9 +19,34 @@ const resolvers = {
           medata: async (parent, args, context) => {
             // if (context.user) {
               // const userData = await Task.find({ username: context.user.username });
-              const userData = await Task.find({ username: args.username });
-//this call will take all the data from a specific user and organize it into a properly structured array. Nulls will go in first, and then all items will be checked for children. All childless tasks will be removed from the list. All tasks will have their task field overwritten with their children. The nulls excluded, all tasks will check if any of the other tasks are their children, at which point they will replace the childless entry of that child task with a populated entry. The nulls will then do the same with the remaining tasks, checking the ids and replacing their unpopulated child tasks with the populated child tasks. This will result in a single object with a giant, populated task field.
-              return userData;
+              var userData = await Task.find({ username: args.username });
+              var parentValues = userData.filter(x => x.path === null);
+            for(var i = 0; i < parentValues.length; i++) {
+              taskData = [];
+              id = parentValues[i]._id;
+              var regex = new RegExp(`,${id},`);
+              (await Task.find({ path: regex})).forEach(item => taskData.push(item));
+              var depth = 0;
+              var it = 0;
+              var idQue = taskData.map(item => item.path.split(',').filter(item => item)).sort().reverse().map(x => x.pop());
+              var objectQue = taskData.sort((a, b) => {
+                if (a.path.length < b.path.length) {
+                  return 1
+                } else {
+                  return -1
+                }
+              }).map(x => x._id.toString());
+              for(var j = 0; j < idQue.length; j++) {
+                var output1 = userData.filter(item => item._id.toString() === idQue[j])[0];
+                var output2 = userData.filter(item => item._id.toString() === objectQue[j])[0];
+                output1.tasks.push(output2);
+              }
+
+              parentValues = userData.filter(x => x.path === null);
+            };
+            
+
+            return parentValues;
             // }
             throw new AuthenticationError('Not logged in');
           },
