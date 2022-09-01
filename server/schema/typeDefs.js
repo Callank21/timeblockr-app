@@ -17,6 +17,7 @@ const typeDefs = gql `
         totaltime: Int
         username: String
         path: String
+        tasks: [Task]
     }
 
     type Auth {
@@ -27,9 +28,10 @@ const typeDefs = gql `
 # Queries
     type Query {
         me: User
+        medata(username: String!): [Task]
         user(username: String!): User
         users: [User]
-        task(_id: ID!): [Task]
+        task(_id: ID!): Task
         tasks: [Task]
         children(_id: ID!): [Task]
     }

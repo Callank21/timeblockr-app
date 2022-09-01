@@ -22,6 +22,25 @@ db.once('open', async () => {
         }
       );
     }
+    var retrievedTasks = await Task.find();
+    // console.log(retrievedTasks);
+    for (let i = 0; i < retrievedTasks.length; i++) {
+      var id = retrievedTasks[i]._id;
+      var regex = new RegExp(`,${id},`);
+      var taskData = [];
+      (await Task.find({ path: regex})).forEach(item => taskData.push(item));
+      for(let i = 0; i < taskData.length; i++) {
+        var taskId = taskData[i]._id;
+      await Task.findOneAndUpdate(
+        { "_id": id },
+        {
+          $addToSet: {
+            tasks: taskId,
+          },
+        }
+      );
+    }
+    }
 
   } catch (err) {
     console.error(err);

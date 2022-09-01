@@ -16,6 +16,15 @@ const resolvers = {
             }
             throw new AuthenticationError('Not logged in');
           },
+          medata: async (parent, args, context) => {
+            // if (context.user) {
+              // const userData = await Task.find({ username: context.user.username });
+              const userData = await Task.find({ username: args.username });
+//this call will take all the data from a specific user and organize it into a properly structured array. Nulls will go in first, and then all items will be checked for children. All childless tasks will be removed from the list. All tasks will have their task field overwritten with their children. The nulls excluded, all tasks will check if any of the other tasks are their children, at which point they will replace the childless entry of that child task with a populated entry. The nulls will then do the same with the remaining tasks, checking the ids and replacing their unpopulated child tasks with the populated child tasks. This will result in a single object with a giant, populated task field.
+              return userData;
+            // }
+            throw new AuthenticationError('Not logged in');
+          },
         user: async (parent, { username }) => {
             return User.findOne({ username })
               .select('-__v -password')
@@ -33,7 +42,7 @@ const resolvers = {
             return taskData;
           },
         tasks: async () => {
-            return Task.find();
+            return Task.find().populate('tasks');
           },
         children: async (parent, { _id }) => {
           taskData = [];
@@ -113,6 +122,19 @@ const resolvers = {
                   },
                 }
               );
+
+              if(path) {
+                //make it so when a new task is made that has the path relating to another task as its parent, it is inserted as its child. But also that might not save so that might not be a solution either
+              await Task.findOneAndUpdate(
+                { "_id": id },
+                {
+                  $addToSet: {
+                    tasks: taskId,
+                  },
+                }
+              );
+            }
+
               return task;
             }
             throw new AuthenticationError();
