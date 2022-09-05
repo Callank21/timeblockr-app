@@ -1,0 +1,257 @@
+:root {
+    --primary-color: #605f5f;
+    --secondary-color: #6a4945;
+    --tertiary-color: #7e9697;
+    --quaternary-color: rgb(48, 71, 94);
+  }
+
+  a {
+    color: black;
+  }
+
+#container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 80% 10%;
+    grid-template-areas: 
+    "header"
+    "main"
+    "footer"
+}
+#header {
+    background-color: var(--tertiary-color);
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+}
+#main {
+    background-color: var(--primary-color);
+    grid-area: main;
+}
+#footer {
+    background-color: var(--secondary-color);
+    grid-area: footer;
+}
+.loginButtons {
+    margin-right: 2vw;
+    margin-top: 1vh;
+}
+
+#signInCard {
+    background-color: var(--quaternary-color);
+    margin-top: 5em;
+    width: 50%;
+    height: 50%;
+    border: solid;
+    border-radius: .25em;
+}
+#login {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+#login * {
+    width: 100%;
+    margin-left: 2.5em;
+    margin-right: 2.5em;
+    margin-top: .1em;
+    margin-bottom: .1em;
+}
+#login > button {
+    margin-left: 25em;
+    margin-right: 25em;
+}
+
+.signInContainer {
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.projectTab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tabLink {
+    color: black;
+    text-decoration: none;
+}
+
+.projectContainer {
+    display: flex; 
+    justify-content: center;
+}
+
+.buttonContainer {
+    display: flex;
+    background-color: var(--quaternary-color);
+    align-items: center;
+    justify-content: center;
+    border: solid;
+    border-radius: .25em;
+    width: 7.5em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+    margin-right: 1em;
+}
+
+.tabContainer {
+    display: flex;
+    background-color: var(--quaternary-color);
+    align-items: center;
+    justify-content: center;
+    border: solid;
+    border-radius: .25em;
+    height: 10em;
+    width: 10em;
+    margin: 2.5em;
+}
+
+.tabContainer p {
+    font-size: 1.5em;
+}
+
+.tabContainer > * {
+    margin: .25em;
+}
+
+.buttonContainer p {
+    margin-right: .5em;
+}
+
+.crudContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.crudContainer button {
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 1em;
+    min-width: 5em;
+}
+.inputContainer {
+    display: flex;
+    background-color: var(--quaternary-color);
+    align-items: center;
+    justify-content: center;
+    border: solid;
+    border-radius: .25em;
+    width: 25em;
+    flex-wrap: wrap;
+    margin-top: 1em;
+}
+
+.inputContainer > * {
+    margin-bottom: .5em;
+    width: 25em;
+}
+
+.inputContainer > p {
+    text-align: center;
+}
+
+.formContainer {
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.cardContainer {
+    display:flex;
+    justify-content: space-evenly;
+    overflow: auto;
+}
+
+.projectCard {
+    background-color:var(--tertiary-color);
+    border: solid;
+    border-radius: .25em;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 25em;
+}
+
+.topCard {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.topCard h2 {
+    margin-top: 0px;
+    max-width: 8em;
+    margin-left: .2em;
+}
+
+.descCard {
+    background-color: #4c739d;
+    border: solid 2px #324c67;
+    width: 100%;
+    border-radius: .5em;
+    margin: .5em;
+}
+.descCard p {
+    text-align: center;
+}
+
+.timeCard {
+    display: flex;
+    flex-wrap: wrap;
+    height:fit-content;
+}
+
+.timeCard span {
+    width: 100%;
+}
+
+.tf-custom .tf-nc {
+    background-color: var(--quaternary-color);
+    border-color: rgb(192, 198, 205);
+    border-radius: 2.5em;
+  }
+
+.lowerTaskContainer {
+    display: flex;
+}
+
+.taskDescription {
+    display: flex;
+    justify-content: center;
+    background-color: var(--quaternary-color);
+    border: solid #4c739d;
+    border-radius: 2em;
+
+}
+
+.taskDescription p {
+    font-size: 23px;
+    text-align: center;
+}
+
+.taskTime {
+    margin-left: .5em;
+}
+
+.taskTimeCard {
+    display: flex;
+    flex-wrap: wrap;
+    height:fit-content;
+    border-left: solid;
+    border-bottom: solid;
+}
+
+.taskTimeCard span {
+    width: 100%;
+    font-size: 20px;
+}
+
+.projectContainer h1 {
+    text-align: center;
+    margin-right: 2.5em;
+}
