@@ -17,8 +17,6 @@ const typeDefs = gql `
         totaltime: Int
         username: String
         path: String
-        depth: Int
-        tasks: [Task]
     }
 
     type Auth {
@@ -32,7 +30,7 @@ const typeDefs = gql `
         medata(username: String!): [Task]
         user(username: String!): User
         users: [User]
-        task(_id: ID!): Task
+        task(_id: ID!): [Task]
         tasks: [Task]
         children(_id: ID!): [Task]
     }
@@ -62,9 +60,11 @@ const typeDefs = gql `
             title: String
             description: String
             time: Int
+            totaltime: Int
             username: String
             path: String
             ): Task
+        deleteTask(_id: ID!): Task
         updateTime(
             _id: ID!
         ): Task

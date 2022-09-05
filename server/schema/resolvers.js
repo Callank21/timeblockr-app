@@ -67,7 +67,7 @@ const resolvers = {
             return taskData;
           },
         tasks: async () => {
-            return Task.find().populate('tasks');
+            return Task.find();
           },
         children: async (parent, { _id }) => {
           taskData = [];
@@ -96,7 +96,6 @@ const resolvers = {
           },
         createUser: async (parent, args) => {
             const user = await User.create(args);
-            console.log(user);
             const token = signToken(user);
       
             return { token, user };
@@ -118,7 +117,9 @@ const resolvers = {
               const task = await Task.create(args);
               var {_id, path } = task;
               const idList = [_id];
+              if (path) {
               path.split(',').filter(x => x).forEach(x => idList.push(ObjectID(x)));
+            }
 
                 if (task) {
                 for(i = 0; i < idList.length; i++) {
@@ -171,7 +172,9 @@ const resolvers = {
 
             var {_id, path } = task;
               const idList = [_id];
+              if (path) {
               path.split(',').filter(x => x).forEach(x => idList.push(ObjectID(x)));
+            }
 
             if (task) {
               for(i = 0; i < idList.length; i++) {
@@ -193,12 +196,50 @@ const resolvers = {
             }
 
             if (task) {
-              console.log("Task has been updated !");
               return task;
             }
       
             throw new AuthenticationError('No Task found !');
           },
+        deleteTask: async (parent, { _id }) => {
+          const task = await Task.findOne({ _id });
+          if (task) {
+          var { path } = task;
+          var regex = new RegExp(`,${_id.toString()},`);
+          const children = await Task.find({ path: regex});
+          if(children.length > 0) {
+            var deleteList = children.map(x => x._id);
+            deleteList.push(ObjectID(_id));
+            await Task.deleteMany(
+              {_id: {$in: deleteList}}
+            );
+          } else {
+          await Task.deleteOne({ _id });
+        }
+        if (path) {
+          const idList = path.split(',').filter(x => x).map(x => ObjectID(x));
+          for(i = 0; i < idList.length; i++) {
+            var {_id} = idList[i];
+            let timeTotal = 0;
+            let taskData = [];
+            taskData.push(await Task.findOne( { _id } ));
+            var regex = new RegExp(`,${_id.toString()},`);
+            (await Task.find({ path: regex})).forEach(item => taskData.push(item));
+            taskData.filter(item => item).forEach(item => timeTotal += item.time);
+            await Task.findOneAndUpdate(
+            { "_id": _id },
+            {
+              $set: {
+                totaltime: timeTotal
+                }
+            });
+          }
+        }
+        return console.log('Task and children has been removed !');
+        }
+          
+        throw new AuthenticationError('No profile found !');
+        },
         updateTime: async (parent, {_id}) => {
           var timeTotal = 0;
           let taskData = [];
