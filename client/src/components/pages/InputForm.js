@@ -18,18 +18,30 @@ const InputForm = (props) => {
         description: '',
         time: ''
     });
+
+    const [done, setDone] = useState(props.done);
+    console.log(done);
+
     useEffect(() => {
       props.edit && setInputState({
         title: props.title,
         description: props.description,
-        time: props.time
+        time: props.time,
       });
   }, [data]);
+
+
     const handleChange = (event) => {
         var { name, value } = event.target;
-    
+
         if (name === "time") {
           value = Number(value);
+        }
+        if (name === "done") {
+          if (value === "false")
+          value = true
+          else if (value === "true")
+          value = false
         }
         if (props.child && props.path === '') {
           setInputState({
@@ -41,13 +53,16 @@ const InputForm = (props) => {
           });
         }
         else if (props.edit) {
+          if (name === "done") {
+            setDone(!done);
+          }
           setInputState({
             ...inputState,
             [name]: value,
             username: data.me.username,
             path: props.path,
             totaltime: 0,
-            id: props.id
+            id: props.id,
           });
         }
         else if (props.path) {
@@ -66,12 +81,15 @@ const InputForm = (props) => {
             username: data.me.username,
             path: '',
             totaltime: 0,
+            done: done
           });
         }
       };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+
+        
     
         const { title, description, time } = inputState;
     
@@ -80,7 +98,7 @@ const InputForm = (props) => {
         } else {
           try {
             await createTask({
-              variables: { ...inputState },
+              variables: { ...inputState},
             });
           } catch (e) {
             console.error(e);
@@ -98,15 +116,14 @@ const InputForm = (props) => {
 
     const handleEditForm = async (event) => {
       event.preventDefault();
-      const { title, description, time } = inputState;
-      console.log(inputState);
+      const { title, description, time} = inputState;
     
         if (title === '' || description === '' || time === '') {
           setErrorMessage('Valid input required');
         } else {
           try {
             await updateTask({
-              variables: { ...inputState },
+              variables: { ...inputState},
             });
           } catch (e) {
             console.error(e);
@@ -124,12 +141,19 @@ const InputForm = (props) => {
 
     return (
         <div className="formContainer">
-          <form className='inputContainer' onSubmit={props.edit? (handleEditForm) :(handleFormSubmit)}>
+          <form className='inputContainer' onSubmit={props.edit ? (handleEditForm) :(handleFormSubmit)}>
             {props.edit ? (
               <p>Edit</p>
             ) : (
               <p>Add Task </p>
             )}
+            <div>
+            {done ? (
+              <button className="doneOn" name="done" value={done} onClick={handleChange} type="button"></button>
+            ) : (
+            <button className="doneOff" name="done" value={done} onClick={handleChange} type="button"></button>
+            )}
+            </div>
               <input
               name="title"
               type="text"

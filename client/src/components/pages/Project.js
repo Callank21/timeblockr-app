@@ -20,6 +20,7 @@ const Project = () => {
         path: ""
     });
 
+
     useEffect(() => {
         data && setTask({
         id: data.task[0]._id,
@@ -32,12 +33,13 @@ const Project = () => {
     }, [data]);
 
     const [back, setBack] = useState('');
-
     useEffect(() => {
         data && setBack(data.task[0].path.split(',').filter(item => item)[0]);
     }, [data]);
+
     return(
         <div>
+            
             <Link key={task._id} to={`/projects/${back}`}>
             <div className='buttonContainer'>
               <p>&larr; Back </p>

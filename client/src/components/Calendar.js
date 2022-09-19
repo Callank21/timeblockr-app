@@ -1,8 +1,9 @@
 import React from 'react';
+import TaskRoster from './pages/Calendar/TaskRoster';
 
 const Calendar = () => {
     return (
-        <div>Calendar Page</div>
+        <TaskRoster />
         );
     };
 

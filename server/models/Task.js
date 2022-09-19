@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-// const User = require('./User');
 
 const taskSchema = new Schema(
   {
@@ -26,6 +25,9 @@ const taskSchema = new Schema(
     },
     path: {
         type: String
+    },
+    done: {
+      type: Boolean
     }
   },
   {

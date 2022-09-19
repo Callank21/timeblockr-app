@@ -31,6 +31,7 @@ export const CREATE_TASK = gql`
     $totaltime: Int
     $username: String!
     $path: String
+    $done: Boolean
   ) {
     createTask(
       title: $title
@@ -39,6 +40,7 @@ export const CREATE_TASK = gql`
       totaltime: $totaltime
       username: $username
       path: $path
+      done: $done
     ) {
       _id
       title
@@ -47,6 +49,7 @@ export const CREATE_TASK = gql`
       totaltime
       username
       path
+      done
     }
   }
 `;
@@ -60,6 +63,7 @@ export const UPDATE_TASK = gql`
     $totaltime: Int
     $username: String!
     $path: String
+    $done: Boolean
   ) {
     updateTask(
       _id: $id
@@ -69,6 +73,7 @@ export const UPDATE_TASK = gql`
       totaltime: $totaltime
       username: $username
       path: $path
+      done: $done
     ) {
       _id
       title
@@ -77,6 +82,7 @@ export const UPDATE_TASK = gql`
       totaltime
       username
       path
+      done
     }
   }
 `;
@@ -91,6 +97,7 @@ export const DELETE_TASK = gql`
       totaltime
       username
       path
+      done
     }
   }
 `;

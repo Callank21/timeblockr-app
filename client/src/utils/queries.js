@@ -14,6 +14,7 @@ export const QUERY_ME = gql`
         totaltime
         username
         path
+        done
       }
     }
   }
@@ -33,6 +34,7 @@ export const QUERY_USER = gql`
         totaltime
         username
         path
+        done
       }
     }
   }
@@ -52,6 +54,7 @@ export const QUERY_USERS = gql`
         totaltime
         username
         path
+        don
       }
   }
 }
@@ -67,6 +70,7 @@ query task($id: ID!) {
     totaltime
     username
     path
+    done
   }
 }
 `;

@@ -52,6 +52,9 @@ function App() {
             <Route path="/projects/:id" element={<Projects />}/>
             <Route path="/project/:id" element={<Project />}/>
             <Route path="/calendar" element={<Calendar/>} />
+            <Route path="/:view" element={<HomePage />} />
+            <Route path="/projects/:view/:id" element={<Projects />}/>
+            <Route path="/calendar/:id" element={<Calendar />}/>
             </Routes>
           </div>
         </Router>

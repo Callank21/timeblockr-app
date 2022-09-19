@@ -7,6 +7,7 @@ const typeDefs = gql `
         email: String
         password: String
         tasks: [Task]
+        friends: [User]
     }
 
     type Task {
@@ -17,6 +18,7 @@ const typeDefs = gql `
         totaltime: Int
         username: String
         path: String
+        done: Boolean
     }
 
     type Auth {
@@ -54,6 +56,7 @@ const typeDefs = gql `
             totaltime: Int
             username: String!
             path: String
+            done: Boolean
             ): Task
         updateTask(
             _id: ID!
@@ -63,6 +66,7 @@ const typeDefs = gql `
             totaltime: Int
             username: String
             path: String
+            done: Boolean
             ): Task
         deleteTask(_id: ID!): Task
         updateTime(
