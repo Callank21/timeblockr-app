@@ -16,6 +16,15 @@ export const QUERY_ME = gql`
         path
         done
       }
+    calendaritems {
+      _id
+      calendarId
+      title
+      category
+      start
+      end
+      state
+    }
     }
   }
 `;
@@ -54,7 +63,7 @@ export const QUERY_USERS = gql`
         totaltime
         username
         path
-        don
+        done
       }
   }
 }

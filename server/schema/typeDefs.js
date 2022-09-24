@@ -7,7 +7,7 @@ const typeDefs = gql `
         email: String
         password: String
         tasks: [Task]
-        friends: [User]
+        calendaritems: [CalendarItem]
     }
 
     type Task {
@@ -19,6 +19,16 @@ const typeDefs = gql `
         username: String
         path: String
         done: Boolean
+    }
+
+    type CalendarItem {
+        _id: ID
+        calendarId: String
+        title: String
+        category: String
+        start: String
+        end: String
+        state: String
     }
 
     type Auth {
@@ -34,7 +44,8 @@ const typeDefs = gql `
         users: [User]
         task(_id: ID!): [Task]
         tasks: [Task]
-        children(_id: ID!): [Task]
+        calendaritem(_id: ID!): CalendarItem
+        calendaritems: [CalendarItem]
     }
 
 # Mutations
@@ -69,9 +80,24 @@ const typeDefs = gql `
             done: Boolean
             ): Task
         deleteTask(_id: ID!): Task
-        updateTime(
+        createCalendarItem(
+            calendarId: String!
+            title: String!
+            category: String!
+            start: String!
+            end: String!
+            state: String!
+            ): CalendarItem
+        updateCalendarItem(
             _id: ID!
-        ): Task
+            calendarId: String!
+            title: String!
+            category: String!
+            start: String!
+            end: String!
+            state: String!
+            ): CalendarItem
+        deleteCalendarItem(_id: ID!): CalendarItem
     }
 `;
 

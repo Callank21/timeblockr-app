@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Task } = require('../models');
+const { User, Task, CalendarItem } = require('../models');
 const { signToken } = require('../utils/auth');
 var mongoose = require('mongoose');
 var ObjectID = require('bson').ObjectID;
@@ -10,7 +10,8 @@ const resolvers = {
             if (context.user) {
               const userData = await User.findOne({ _id: context.user._id })
                 .select('-__v -password')
-                .populate('tasks');
+                .populate('tasks')
+                .populate('calendaritems');
       
               return userData;
             }
@@ -19,10 +20,10 @@ const resolvers = {
         user: async (parent, { username }) => {
             return User.findOne({ username })
               .select('-__v -password')
-              .populate('tasks');
+              .populate('tasks').populate('calendaritems');
           },
         users: async () => {
-            return User.find().select('-__v -password').populate('tasks');
+            return User.find().select('-__v -password').populate('tasks').populate('calendaritems');
           },
         task: async (parent, { _id }) => {
             taskData = [];
@@ -35,11 +36,11 @@ const resolvers = {
         tasks: async () => {
             return Task.find();
           },
-        children: async (parent, { _id }) => {
-          taskData = [];
-            var regex = new RegExp(`,${_id},$`);
-            (await Task.find({ path: regex})).forEach(item => taskData.push(item));
-          return taskData;
+        calendaritem: async (parent, { _id }) => {
+          return CalendarItem.findOne({ _id });
+        },
+        calendaritems: async () => {
+          return CalendarItem.find();
         }
     },
 
@@ -86,7 +87,6 @@ const resolvers = {
               if (path) {
               path.split(',').filter(x => x).forEach(x => idList.push(ObjectID(x)));
             }
-
                 if (task) {
                 for(i = 0; i < idList.length; i++) {
                   var {_id} = idList[i];
@@ -135,7 +135,7 @@ const resolvers = {
             const task = await Task.findOneAndUpdate({ _id: args._id }, args, {
               new: true,
             });
-
+            
             var {_id, path, done } = task;
             if (done) {
               let regex = new RegExp(`,${_id.toString()},`);
@@ -159,7 +159,6 @@ const resolvers = {
               if (path) {
               path.split(',').filter(x => x).forEach(x => idList.push(ObjectID(x)));
             }
-
             if (task) {
               for(i = 0; i < idList.length; i++) {
                 var {_id} = idList[i];
@@ -222,24 +221,46 @@ const resolvers = {
         return console.log('Task and children has been removed !');
         }
           
-        throw new AuthenticationError('No profile found !');
+        throw new AuthenticationError('No Calendar Item found !');
         },
-        updateTime: async (parent, {_id}) => {
-          var timeTotal = 0;
-          let taskData = [];
-          taskData.push(await Task.findOne( { _id } ));
-          var regex = new RegExp(`,${_id},`);
-          (await Task.find({ path: regex})).forEach(item => taskData.push(item));
-          taskData.filter(item => item).forEach(item =>  timeTotal += item.time);
-          return Task.findOneAndUpdate(
-            { "_id": _id },
-            {
-              $set: {
-                totaltime: timeTotal
-            }
-        });
-            // return timeTotal;
-        }
+        createCalendarItem: async (parent, args, context) => {
+          if (context.user) {
+            args._id = new ObjectID();
+            const calendarItem = await CalendarItem.create(args);
+            await User.findOneAndUpdate(
+              { "_id": context.user._id },
+              {
+                $addToSet: {
+                  calendaritems: calendarItem._id,
+                },
+              }
+            );
+            
+            return calendarItem;
+          }
+          throw new AuthenticationError();
+        },
+        updateCalendarItem: async (parent, args) => {
+          const calendarItem = await CalendarItem.findOneAndUpdate({ _id: args._id }, args, {
+            new: true,
+          });
+    
+          if (calendarItem) {
+            return console.log('Calendar Item has been updated !');
+          }
+    
+          throw new AuthenticationError('No Calendar Item found !');
+        },
+        deleteCalendarItem: async (parent, { _id }) => {
+          const calendarItem = await CalendarItem.findOne({ _id });
+    
+          if (calendarItem) {
+            await calendarItem.deleteOne({ _id });
+    
+            return console.log('Calendar Item has been removed !');
+          }
+          throw new AuthenticationError('No Calendar Item found !');
+        },
     }
 };
 

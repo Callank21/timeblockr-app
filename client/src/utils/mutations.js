@@ -101,3 +101,74 @@ export const DELETE_TASK = gql`
     }
   }
 `;
+
+export const CREATE_CALENDARITEM = gql`
+  mutation createCalendarItem(
+    $calendarId: String!
+    $title: String! 
+    $category: String! 
+    $start: String!
+    $end: String!
+    $state: String!
+  ) {
+    createCalendarItem(
+      calendarId: $calendarId
+      title: $title
+      category: $category
+      start: $start
+      end: $end
+      state: $state
+    ) {
+      calendarId
+      title
+      category
+      start
+      end
+      state
+    }
+  }
+`;
+
+export const UPDATE_CALENDARITEM = gql`
+  mutation updateCalendarItem(
+    $id: ID!
+    $calendarId: String!
+    $title: String!
+    $category: String!
+    $start: String!
+    $end: String!
+    $state: String!
+  ) {
+    updateTask(
+      _id: $id
+      calendarId: $calendarId
+      title: $title
+      category: $category
+      start: $start
+      end: $end
+      state: $state
+    ) {
+      _id
+      calendarId
+      title
+      category
+      start
+      end
+      state
+    }
+  }
+`;
+
+export const DELETE_CALENDARITEM = gql`
+  mutation deleteCalendarItem($id: ID!) {
+    deleteCalendarItem(_id: $id) {
+      _id
+      calendarId
+      title
+      category
+      start
+      end
+      state
+    }
+  }
+`;

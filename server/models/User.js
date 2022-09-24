@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-// const Profile = require('./Profile');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
@@ -26,11 +25,11 @@ const userSchema = new Schema({
       ref: 'Task'
     },
   ],
-  friends: [
+  calendaritems: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
+      ref: 'CalendarItem'
+    },
 ]
 });
 

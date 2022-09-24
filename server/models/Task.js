@@ -27,7 +27,8 @@ const taskSchema = new Schema(
         type: String
     },
     done: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   {

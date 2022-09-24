@@ -1,12 +1,48 @@
 import React from 'react';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
-import { useState, useEffect } from 'react';
-import { QUERY_TASK } from '../../../utils/queries';
-import { useQuery } from '@apollo/client';
+import { useCallback, useState, useEffect } from 'react';
+import { QUERY_ME } from '../../../utils/queries';
+import { CREATE_CALENDARITEM, UPDATE_CALENDARITEM, DELETE_CALENDARITEM} from '../../../utils/mutations';
+import { useQuery, useMutation } from '@apollo/client';
 
+// first, import date.js to translate minutes into a timefram
+// next, get a list of the events that will be translated into calendar items, get their times,
+function freeTimeCalculator (data, timeframe) {
+  console.log(data[0].start);
+  console.log(data[0].end);
+  console.log(timeframe);
+}
 
 const CalendarUI = () => {
+  const [createCalendarItem] = useMutation(CREATE_CALENDARITEM);
+    const [updateCalendarItem] = useMutation(UPDATE_CALENDARITEM);
+    const [onClick, setOnClick] = useState(false);
+    const [events, setEvents] = useState();
+    const [errorMessage, setErrorMessage] = useState('');
+    const [calendarItem, setCalendarItem] = useState({
+        calendarId: '',
+        title: '',
+        category: '',
+        start: '',
+        end: '',
+        state: ''
+  });
+
+  const { data } = useQuery(QUERY_ME);
+
+    useEffect(() => {
+      if (data) {
+      setEvents(data.me.calendaritems);
+    }
+    }, []);
+
+    useEffect(() => {
+      if (data) {
+      // freeTimeCalculator (events, 1000);
+    }
+    }, []);
+
     const [date, setDate] = useState(new Date().getDay());
     const [ID, setID] = useState();
     const calendars = [{ id: 'cal1', name: 'Personal' }, {id: 'cal2', name: 'Tasks'}];
@@ -17,34 +53,56 @@ const CalendarUI = () => {
         }
       }, [ID]);
 
-      const { data } = useQuery(QUERY_TASK, {
-        variables: { id: ID },
-    });
+    useEffect(() => {
+        if (onClick) {
+          handleCreateEvent();
+        }
+      }, [calendarItem]);
 
-    const initialEvents = [
-      {
-        id: '1',
-        calendarId: 'cal1',
-        title: 'Lunch',
-        category: 'time',
-        start: '2022-09-17T19:30:00',
-        end: '2022-09-17T20:00:00',
-      },
-      {
-        id: '2',
-        calendarId: 'cal1',
-        title: 'Coffee Break',
-        category: 'time',
-        start: '2022-09-28T15:00:00',
-        end: '2022-09-28T15:30:00',
-      },
-    ];
+      
   
+    const handleCreateEvent = async () => {
+    
+        const { calendarId, title, category, start, end, state } = calendarItem;
+      if (calendarId === '' || title === '' || category === '' || start === '' || end === '') {
+        setErrorMessage('Valid input required');
+      } else {
+        try {
+          await createCalendarItem({
+            variables: {
+              calendarId: calendarId,
+              title: title,
+              category: category,
+              start: start,
+              end: end,
+              state: state
+            },
+          });
+        } catch (e) {
+          console.error(e);
+        }
+
+        setCalendarItem({
+          calendarId: '',
+          title: '',
+          category: '',
+          start: '',
+          end: '',
+          state: ''
+        });
+
+      setOnClick(false);
+      // window.location.assign(`/calendar`);
+    }
+    };
+
     const onAfterRenderEvent = (event) => {
-      console.log(event.title);
+      // console.log(event.title);
     };
 
     const calendarOptions = {
+      useFormPopup: true,
+      useDetailPopup: true,
     };
     
     class Options extends React.Component {
@@ -53,9 +111,17 @@ const CalendarUI = () => {
 
       onClickInstance = () => {
         const calendarInstance = this.calendarRef.current.getInstance();
-        console.log(calendarInstance.on('selectDateTime', (eventObj) => {
-          console.log(eventObj);
-        }));
+        calendarInstance.on('beforeCreateEvent', (data) => {
+          setOnClick(true);
+          setCalendarItem({
+            calendarId: data.calendarId,
+            title: data.title,
+            category: 'time',
+            start: data.start.d.d,
+            end: data.end.d.d,
+            state: data.state
+          })
+        });
       };
     
       handleClickNextButton = () => {
@@ -79,6 +145,13 @@ const CalendarUI = () => {
         console.log(dateTime);
       }
 
+      popUpMenu = (event) => {
+        console.log(event);
+        event.preventDefault()
+        const calendarInstance = this.calendarRef.current.getInstance();
+        calendarInstance.openFormPopup(event);
+      }
+
       render() {
         return (
           <>
@@ -86,7 +159,7 @@ const CalendarUI = () => {
                 <button onClick={this.weekChange} type="button">week</button>
                 <button onClick={this.monthChange} type="button">month</button>
             </div>
-            <div className="calendarUIContainer" onMouseUp={this.onClickInstance}>
+            <div className="calendarUIContainer" onClick={this.onClickInstance}>
             <Calendar 
             height="100%"
             width="100%"
@@ -97,7 +170,7 @@ const CalendarUI = () => {
             }}
             selectDateTime={this.selectDateTime}
             calendars={calendars}
-            events={initialEvents}
+            events={events}
             onAfterRenderEvent={onAfterRenderEvent}
             ref={this.calendarRef} {...calendarOptions} />
             <button onClick={this.handleClickNextButton}>Go next!</button>

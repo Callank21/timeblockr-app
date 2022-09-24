@@ -20,7 +20,6 @@ const InputForm = (props) => {
     });
 
     const [done, setDone] = useState(props.done);
-    console.log(done);
 
     useEffect(() => {
       props.edit && setInputState({
