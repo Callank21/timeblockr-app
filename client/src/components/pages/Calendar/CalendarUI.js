@@ -5,12 +5,14 @@ import { useCallback, useState, useEffect } from 'react';
 import { QUERY_ME } from '../../../utils/queries';
 import { CREATE_CALENDARITEM, UPDATE_CALENDARITEM, DELETE_CALENDARITEM} from '../../../utils/mutations';
 import { useQuery, useMutation } from '@apollo/client';
+import * as dayjs from 'dayjs';
 
 // first, import date.js to translate minutes into a timefram
 // next, get a list of the events that will be translated into calendar items, get their times,
 function freeTimeCalculator (data, timeframe) {
   console.log(data[0].start);
   console.log(data[0].end);
+  console.log(dayjs(data[0].start).add(75, 'minute').$d);
   console.log(timeframe);
 }
 
@@ -29,29 +31,30 @@ const CalendarUI = () => {
         state: ''
   });
 
-  const { data } = useQuery(QUERY_ME);
-
-    useEffect(() => {
-      if (data) {
-      setEvents(data.me.calendaritems);
-    }
-    }, []);
-
-    useEffect(() => {
-      if (data) {
-      // freeTimeCalculator (events, 1000);
-    }
-    }, []);
-
-    const [date, setDate] = useState(new Date().getDay());
+  const [date, setDate] = useState(new Date().getDay());
     const [ID, setID] = useState();
+    const [Roster, setRoster] = useState([]);
     const calendars = [{ id: 'cal1', name: 'Personal' }, {id: 'cal2', name: 'Tasks'}];
 
     useEffect(() => {
         if (localStorage.getItem('calendarRoster')) {
           setID(JSON.parse(localStorage.getItem('calendarRoster')));
         }
-      }, [ID]);
+      }, []);
+
+      
+  const { data } = useQuery(QUERY_ME);
+
+    useEffect(() => {
+      data && setEvents(data.me.calendaritems);
+      console.log(ID);
+    }, [data]);
+
+    useEffect(() => {
+      if (data) {
+      // freeTimeCalculator (events, 1000);
+    }
+    }, [data]);
 
     useEffect(() => {
         if (onClick) {
@@ -128,6 +131,11 @@ const CalendarUI = () => {
         const calendarInstance = this.calendarRef.current.getInstance();
         calendarInstance.next();
       };
+
+      handleClickBackButton = () => {
+        const calendarInstance = this.calendarRef.current.getInstance();
+        calendarInstance.prev();
+      };
     
       weekChange = () => {
         const calendarInstance = this.calendarRef.current.getInstance();
@@ -167,13 +175,18 @@ const CalendarUI = () => {
             week={{
                 dayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
                 startDayOfWeek: date,
+                taskView: false,
+                eventView: ['time']
             }}
             selectDateTime={this.selectDateTime}
             calendars={calendars}
             events={events}
             onAfterRenderEvent={onAfterRenderEvent}
             ref={this.calendarRef} {...calendarOptions} />
+            <div className="weekNavContainer">
+            <button onClick={this.handleClickBackButton}>Go back!</button>
             <button onClick={this.handleClickNextButton}>Go next!</button>
+            </div>
             </div>
           </>
         );

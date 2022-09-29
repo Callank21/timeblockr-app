@@ -90,11 +90,13 @@ const cards = list.map(item => {
     return (
       <div className="calendarContainer">
         <div className="taskRosterContainer">
-            <div className="rosterTop">
+            <div className="rosterTop"> 
             <p>Task Roster</p>
             <Link key="view" to={`/view`}><button>+</button></Link>
             </div>
+            <div className="cardRosterContainer">
             {cards}
+            </div>
         </div>
         <CalendarButtons />
         <CalendarUI />

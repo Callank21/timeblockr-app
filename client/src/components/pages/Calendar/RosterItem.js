@@ -7,6 +7,9 @@ const RosterItem = (props) => {
         localStorage.setItem('calendarRoster', JSON.stringify(props._id));
     }
 
+    function handleClear() {
+        localStorage.setItem('calendarRoster', undefined);
+    }
     return (
         <li className='topList'>
             {props.tasks.length > 0 ? (
@@ -15,7 +18,9 @@ const RosterItem = (props) => {
                     {backgroundColor: "green"}) :
                     ({backgroundColor: props.color})}>
                     <div>
+                    <form onSubmit={handleClear}>
                     <button>🗑</button>
+                    </form>
                     <span>{props.title}</span>
                     </div>
                     <div>
@@ -36,7 +41,9 @@ const RosterItem = (props) => {
                     {backgroundColor: "green"}) :
                     ({backgroundColor: props.color})}>
                     <div>
+                    <form onSubmit={handleClear}>
                     <button>🗑</button>
+                    </form>
                     <span>{props.title}</span>
                     </div>
                     <div>
